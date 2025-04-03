@@ -3,20 +3,23 @@ class Solution {
         int n = temperatures.length;
         int[] answer = new int[n]; 
         
-        for (int i = n - 2; i >= 0; i--) { 
-            int j = i + 1; 
-            
-            while (j < n && temperatures[j] <= temperatures[i]) {
-                if (answer[j] == 0) break; 
-                j += answer[j]; 
-            }
-            
-            if (j < n && temperatures[j] > temperatures[i]) {
-                answer[i] = j - i; 
-            }
+        for (int i = n - 2; i >= 0; i--) {
+            answer[i] = findNextWarmerDay(temperatures, answer, i);
         }
         
         return answer;
+    }
+
+    // Helper method to find the next warmer day
+    private int findNextWarmerDay(int[] temperatures, int[] answer, int i) {
+        int j = i + 1;
+        
+        while (j < temperatures.length && temperatures[j] <= temperatures[i]) {
+            if (answer[j] == 0) return 0; 
+            j += answer[j]; 
+        }
+        
+        return (j < temperatures.length) ? j - i : 0;
     }
 }
 
